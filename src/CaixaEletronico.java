@@ -16,7 +16,8 @@ public class CaixaEletronico {
         System.out.println("5. Depositar");
         System.out.println("6. Sacar");
         System.out.println("7. Transferencia");
-        System.out.println("8. Sair");
+        System.out.println("8. Remover uma Conta");
+        System.out.println("9. Sair");
         System.out.println("```");
     }
 
@@ -76,7 +77,7 @@ public class CaixaEletronico {
     }
 
     public void sacar(){
-        System.out.println("Digite o número da conta que deseja fazer depósito: ");
+        System.out.println("Digite o número da conta que deseja fazer saque: ");
         int idConta = Integer.parseInt(entrada.nextLine());
         for(ContaBancaria conta : contas){
             if(conta != null && conta.getId() == idConta){
@@ -107,6 +108,23 @@ public class CaixaEletronico {
         System.out.println("Transferência realizada com sucesso.");
     }
 
+    public void removerConta(){
+        System.out.println("Digite o número da conta que deseja remover: ");
+        int idConta = Integer.parseInt(entrada.nextLine());
+        for(ContaBancaria conta : contas){
+            if(conta != null && conta.getId() == idConta && conta.getSaldo() == 0){
+                contas.remove(conta);
+                System.out.println("Conta número: " + idConta + " removida com sucesso!");
+                break;
+            } else if(conta.getSaldo() <= 0){
+                System.out.println("A conta não pôde ser removida pois seu saldo de " + conta.getSaldo() + " está negativo");
+            } else if (conta.getSaldo() >= 0){
+                System.out.println("A conta não pôde ser removida pois ainda possui " + conta.getSaldo() + " de saldo ou não existe");
+            }
+        }
+
+    }
+
     public void executar(){
         int opcao;
     do{
@@ -114,7 +132,7 @@ public class CaixaEletronico {
         opcao = Integer.parseInt(entrada.nextLine());
         executarOpcao(opcao);
 
-    }while(opcao != 8);
+    }while(opcao != 9);
     }
 
     public void executarOpcao(int opcao){
@@ -139,6 +157,9 @@ public class CaixaEletronico {
                 break;
             case 7:
                 transferir();
+                break;
+            case 8:
+                removerConta();
                 break;
         }
     }
